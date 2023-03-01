@@ -3,7 +3,7 @@ package com.example.btt2screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.btt2screen.DataStore
+import java.util.regex.Pattern
 
 class SignUpViewModel : ViewModel() {
     val fullName = MutableLiveData<String>()
@@ -18,14 +18,15 @@ class SignUpViewModel : ViewModel() {
     val isSuccessEvent: LiveData<Boolean>
         get() = _isSuccessEvent
 
+
     fun onSignUp() {
         var _errorString = ""
 
-        // check fullName
+
         if (fullName.value.isNullOrEmpty())
             _errorString += "Your full name is null or empty"
 
-        // check email
+
         if (!isEmailValid(email.value.toString()))
         {
             if(_errorString.isNotEmpty()) _errorString += "\n"
@@ -35,13 +36,13 @@ class SignUpViewModel : ViewModel() {
         if(isExistEmail(email.value.toString()))
         {
             if(_errorString.isNotEmpty()) _errorString += "\n"
-            _errorString += "E-mail is already exist"
+            _errorString += "This email is already in use"
         }
-        // check password
+
         if (!isPasswordValid(password.value.toString()))
         {
             if(_errorString.isNotEmpty()) _errorString += "\n"
-            _errorString += "\nPassword "
+            _errorString += "Invalid Password"
         }
 
         // Throw Error
@@ -61,9 +62,14 @@ class SignUpViewModel : ViewModel() {
     private fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
-
+    companion object {
+        private val Validate_password: Pattern = Pattern.compile(
+//            "^" + "(?=.*[0-9])" + "(?=.*[a-z])" + "(?=.*[A-Z])" + "(?=.*[!@#$%^&*()])"+".{8,}" + "$"
+            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+        )
+    }
     private fun isPasswordValid(password: String): Boolean {
-        return password.length in 8..10
+        return Validate_password.matcher(password).matches()
     }
 
 }

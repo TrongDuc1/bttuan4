@@ -3,11 +3,13 @@ package com.example.btt2screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.btt2screen.DataStore
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LoginInViewModel: ViewModel() {
     val email: MutableLiveData<String> = MutableLiveData("username@gmail.com")
-    val password: MutableLiveData<String> = MutableLiveData("123456")
+    val password: MutableLiveData<String> = MutableLiveData("12345678")
 
     private var _isErrorEvent: MutableLiveData<String> = MutableLiveData()
     val isErrorEvent: LiveData<String>
@@ -36,7 +38,7 @@ class LoginInViewModel: ViewModel() {
         if (foundUser != null) {
             DataStore.currentUserData.value = foundUser
         }
-
         _isSuccessEvent.postValue(true)
     }
+
 }

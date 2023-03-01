@@ -146,7 +146,7 @@
             android:textColorHint="#C4C4C4"
             android:text="@={viewModel.password}"
             android:hint="Password"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:textColor="@color/black"
